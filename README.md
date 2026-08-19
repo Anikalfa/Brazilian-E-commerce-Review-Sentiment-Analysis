@@ -17,7 +17,20 @@ This project classifies Olist review text as **positive** or **negative** and co
 On top of the modeling, the best classifier is deployed against **every** written review to build a customer-service negative-review priority queue and a category/seller sentiment trend dashboard.
  
 ---
- 
+## 🏗️ Data Pipeline (Upstream)
+
+Raw preprocessing and data warehousing happen **outside this repo**, in a companion project: [**brazilian-ecommerce-dwh**](https://github.com/Anikalfa/brazilian-ecommerce-dwh). That repo builds a SQL-based data warehouse from the raw Olist CSVs using a **medallion (bronze → silver → gold) architecture**:
+
+| Layer | Purpose |
+|---|---|
+| 🥉 **Bronze** | Raw Olist tables loaded as-is into the warehouse |
+| 🥈 **Silver** | Cleaned, validated, and standardized tables (data quality checks applied) |
+| 🥇 **Gold** | Business-ready, aggregated/joined tables for analytics and modeling |
+
+It also includes database creation scripts, an SSIS pipeline, and a dedicated data-quality-check module. This notebook consumes the cleaned, modeled output of that warehouse as its starting point, then focuses on **feature engineering and machine learning** on top of it.
+
+> 📌 See the [DWH repo](https://github.com/Anikalfa/brazilian-ecommerce-dwh) for the full ETL/warehouse implementation.
+
 ## 🧹 Data Preparation
  
 | Step | Detail |
